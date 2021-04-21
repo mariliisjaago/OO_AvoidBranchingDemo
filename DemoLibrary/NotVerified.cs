@@ -2,25 +2,24 @@
 
 namespace DemoLibrary
 {
-    public class Frozen : IAccountState
+    public class NotVerified : IAccountState
     {
-        private readonly Action _onUnfreezing;
+        private readonly Action _onUnfreeze;
 
-        public Frozen(Action onUnfreezing)
+        public NotVerified(Action onUnfreeze)
         {
-            _onUnfreezing = onUnfreezing;
+            _onUnfreeze = onUnfreeze;
         }
 
         public IAccountState Close()
         {
-            return this;
+            return new Closed();
         }
 
         public IAccountState Deposit(Action addToBalance)
         {
-            _onUnfreezing();
             addToBalance();
-            return new Active(_onUnfreezing);
+            return this;
         }
 
         public IAccountState Freeze()
@@ -30,14 +29,12 @@ namespace DemoLibrary
 
         public IAccountState HolderVerified()
         {
-            return this;
+            return new Active(_onUnfreeze);
         }
 
         public IAccountState Withdraw(Action substractFromBalance)
         {
-            _onUnfreezing();
-            substractFromBalance();
-            return new Active(_onUnfreezing);
+            return this;
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿namespace DemoLibrary
+﻿using System;
+
+namespace DemoLibrary
 {
     public interface IAccountState
     {
-        IAccountState Deposit();
-        IAccountState Withdraw();
+        IAccountState Deposit(Action addToBalance);
+        IAccountState Withdraw(Action substractFromBalance);
         IAccountState Freeze();
         IAccountState HolderVerified();
         IAccountState Close();

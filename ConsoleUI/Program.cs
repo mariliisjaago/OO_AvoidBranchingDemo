@@ -11,8 +11,6 @@ namespace ConsoleUI
             Action customAction = CustomActionImplementation1;
             var myAccount = new Account(customAction);
 
-            myAccount.Create();
-
             Console.WriteLine($"Created account, nalance: { myAccount.Balance }");
 
             myAccount.Deposit(3.0m);
@@ -25,13 +23,13 @@ namespace ConsoleUI
 
             Console.WriteLine($"Unfroze, deposited, balance: { myAccount.Balance }");
 
-            myAccount.Freeze();
+            myAccount.VerifyOwner();
 
             myAccount.Withdraw(2.0m);
 
             Console.WriteLine($"Unfroze, withdrew, balance: { myAccount.Balance }");
 
-
+            myAccount.CloseAccount();
         }
 
         private static void CustomActionImplementation1()

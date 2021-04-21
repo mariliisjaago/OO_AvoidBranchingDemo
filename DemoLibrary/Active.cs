@@ -13,11 +13,12 @@ namespace DemoLibrary
 
         public IAccountState Close()
         {
-            throw new NotImplementedException();
+            return new Closed();
         }
 
-        public IAccountState Deposit()
+        public IAccountState Deposit(Action addToBalance)
         {
+            addToBalance();
             return this;
         }
 
@@ -28,11 +29,12 @@ namespace DemoLibrary
 
         public IAccountState HolderVerified()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
-        public IAccountState Withdraw()
+        public IAccountState Withdraw(Action substractFromBalance)
         {
+            substractFromBalance();
             return this;
         }
     }

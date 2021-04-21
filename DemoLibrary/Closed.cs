@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DemoLibrary
 {
-    public class Verified : IAccountState
+    public class Closed : IAccountState
     {
         public IAccountState Close()
         {
             return this;
         }
 
-        public IAccountState Deposit()
+        public IAccountState Deposit(Action addToBalance)
         {
             return this;
         }
@@ -23,10 +21,10 @@ namespace DemoLibrary
 
         public IAccountState HolderVerified()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
-        public IAccountState Withdraw()
+        public IAccountState Withdraw(Action substractFromBalance)
         {
             return this;
         }

@@ -5,61 +5,39 @@ namespace DemoLibrary
     public class Account
     {
         public decimal Balance { get; private set; }
-        private bool IsVerified { get; set; } = true;
-        private bool IsClosed { get; set; } = false;
 
-        private IAccountState _freezable { get; set; }
+        private IAccountState _state { get; set; }
 
         public Account(Action onUnfreeze)
         {
-            _freezable = new Active(onUnfreeze);
-        }
-
-        public void Create()
-        {
             Balance = 0.0m;
+
+            _state = new NotVerified(onUnfreeze);
         }
 
         public void Deposit(decimal amount)
         {
-            if (IsClosed == true)
-            {
-                return;
-            }
-
-            _freezable = _freezable.Deposit();
-
-            Balance += amount;
+            _state = _state.Deposit(() => { Balance += amount; });
         }
+
         public void Withdraw(decimal amount)
         {
-            if (IsVerified == false)
-            {
-                return;
-            }
-            if (IsClosed == true)
-            {
-                return;
-            }
-
-            _freezable = _freezable.Withdraw();
-
-            Balance -= amount;
+            _state = _state.Withdraw(() => { Balance -= amount; });
         }
 
         public void VerifyOwner()
         {
-            IsVerified = true;
+            _state = _state.HolderVerified();
         }
 
         public void CloseAccount()
         {
-            IsClosed = true;
+            _state = _state.Close();
         }
 
         public void Freeze()
         {
-            _freezable = _freezable.Freeze();
+            _state = _state.Freeze();
         }
 
     }
